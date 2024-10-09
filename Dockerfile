@@ -10,6 +10,9 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY src ./src
 
+# Clean up any existing Gradle installation
+RUN rm -rf /usr/local/gradle*
+
 # Download the Gradle Wrapper
 RUN wget https://services.gradle.org/distributions/gradle-7.6-bin.zip && \
     unzip gradle-7.6-bin.zip && \
@@ -17,7 +20,7 @@ RUN wget https://services.gradle.org/distributions/gradle-7.6-bin.zip && \
     ln -s /usr/local/gradle-7.6/bin/gradle /usr/bin/gradle && \
     rm -rf gradle-7.6 gradle-7.6-bin.zip
 
-# Now you can use the Gradle wrapper to build your project
+# Build the project
 RUN gradle build
 
 # Run Stage
