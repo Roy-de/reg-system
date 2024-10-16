@@ -6,30 +6,37 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    /*@Bean
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // In-memory authentication for demo purposes
-        auth.inMemoryAuthentication()
-                .withUser("user") // Create a user with username "user"
-                .password("password") // Password is "password"
-                .roles("USER"); // Assign role "USER"
-    }*/
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader("Access-Control-Allow-Origin");
+        corsConfiguration.addExposedHeader("Access-Control-Allow-Methods");
+        corsConfiguration.addExposedHeader("Access-Control-Max-Age");
+        corsConfiguration.addExposedHeader("Access-Control-Allow-Headers");
+        corsConfiguration.addExposedHeader("Access-Control-Allow-Credentials");
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return corsConfigurationSource;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.cors(AbstractHttpConfigurer::disable)
+        return http.cors(c -> c.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(r -> r
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().permitAll())
-                .formLogin(r -> r.loginPage("/login")
-                        .defaultSuccessUrl("/home",true)
-                        .failureForwardUrl("/login?error=true").permitAll())
-                .logout(r -> r.logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
-                        .permitAll()).build();
+                .build();
     }
 }
