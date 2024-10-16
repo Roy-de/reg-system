@@ -35,7 +35,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(c -> c.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(r -> r
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .build();
