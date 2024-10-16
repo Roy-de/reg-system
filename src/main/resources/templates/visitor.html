@@ -28,7 +28,6 @@
                 <button class="border-2 border-blue-700 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">Login as Lecturer</button>
             </a>
         </div>
-
     </div>
 </header>
 
@@ -42,9 +41,28 @@
     </div>
 </section>
 
-<!-- About Us Section -->
+<!-- Navigation Links for Visitors -->
 <main class="container mx-auto w-full mt-8">
-    <section class="bg-white p-6 rounded-lg shadow mb-8 flex flex-col md:flex-row">
+    <section class="bg-white p-6 rounded-lg shadow mb-8 py-10">
+        <h2 class="text-3xl font-semibold text-center py-6">Explore Our Services</h2>
+        <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+            <a href="/catalog" class="inline-block">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">Search Course Catalog</button>
+            </a>
+            <a href="/academics/catalog" class="inline-block">
+                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">Press for Catalog</button>
+            </a>
+            <a href="/academics/schedule" class="inline-block">
+                <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">Press for Schedule</button>
+            </a>
+            <a href="/about" class="inline-block">
+                <button class="border-2 border-blue-700 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-6 rounded focus:outline-none focus:shadow-outline">About Us</button>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="bg-white p-6 rounded-lg shadow mb-8 flex flex-col md:flex-row text-center items-center justify-center py-12">
         <div class="md:w-1/2 md:pr-4">
             <h2 class="text-3xl font-semibold">About Us</h2>
             <p class="mt-2 text-gray-600">Author Morgan University is dedicated to providing quality education and fostering growth in students.</p>
@@ -54,7 +72,7 @@
 
     <!-- Services Section -->
     <section id="services" class="bg-white p-6 rounded-lg shadow space-y-10">
-        <h2 class="text-3xl font-semibold text-center">Our Services</h2>
+        <h2 class="text-3xl font-semibold text-center py-6">Our Services</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
             <div class="p-4 rounded-lg shadow-lg bg-blue-50 hover:bg-blue-100 transition duration-300">
                 <img src="../static/public/undergraduate_programs.jpg" alt="Undergraduate Programs" class="rounded-lg mb-2 w-full h-32 object-cover"/>
@@ -74,7 +92,6 @@
         </div>
     </section>
 </main>
-
 
 <!-- Footer -->
 <footer class="bg-white shadow mt-8">

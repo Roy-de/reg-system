@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Objects;
+
 @Controller
 public class LoginController {
 
@@ -28,7 +30,7 @@ public class LoginController {
     @PostMapping("/student/login")
     public String loginTo(Model model,@ModelAttribute("LoginDto")LoginDto loginDto) throws Exception {
         Login login = loginService.login(loginDto);
-        if (login != null) {
+        if (login != null && Objects.equals(login.getUser_type(), "Student")) {
             return "redirect:/student/dashboard";
         }else {
             model.addAttribute("loginError", "Invalid username or password.");

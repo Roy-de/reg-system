@@ -30,7 +30,7 @@ public class LoginService extends AbstractService<Login, LoginDto, UUID> {
             if(login.getPassword().equals(loginDto.getPassword())) {
                 return login;
             }else{
-                throw new Exception();
+                return null;
             }
         }else {
             return null;
