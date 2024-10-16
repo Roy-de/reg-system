@@ -7,18 +7,16 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+
 @Entity
-@Table(name = "course")
+@Table(name = "course_prerequisites")
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Course {
+public class CoursePrerequisites {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID course_id;
-    private String course_name;
-    private UUID dept_id;
-    private int no_of_credits;
-    private String description;
-    private String course_level;
+    private UUID prerequisites_course_id;
+    private int minimum_grade;
 }
