@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(r -> r
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                         .anyRequest().permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
                 .build();
     }
 }
