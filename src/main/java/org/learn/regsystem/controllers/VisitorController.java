@@ -10,4 +10,8 @@ public class VisitorController {
     public String home() {
         return "visitor";
     }
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
 }

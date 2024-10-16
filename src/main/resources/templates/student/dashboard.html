@@ -2,9 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-Hello from dashboard
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="bg-blue-700 text-white py-6 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-3xl font-bold">Student Dashboard</h1>
+        <a href="/logout" class="text-lg font-semibold hover:underline">Logout</a>
+    </div>
+</header>
+
+<!-- Main Section -->
+<main class="container mx-auto my-10">
+    <!-- Welcome Section -->
+    <section class="bg-white p-6 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-semibold text-blue-700">Hello, Welcome Back!</h2>
+        <p class="mt-4 text-gray-600">Manage your courses, view your advisor, and stay on top of your academic progress.</p>
+    </section>
+
+    <!-- Advisor Section -->
+    <section class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 class="text-xl font-bold text-green-700">View Advisor</h3>
+            <p class="mt-2 text-gray-600">Need assistance with your courses? View your advisor for guidance.</p>
+            <a href="/student/advisement" class="inline-block mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-300">Go to Advisement Page</a>
+        </div>
+
+        <!-- Example of other sections -->
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 class="text-xl font-bold text-purple-700">View Courses</h3>
+            <p class="mt-2 text-gray-600">Check your enrolled courses and keep track of your academic performance.</p>
+            <a href="/student/courses" class="inline-block mt-4 bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-lg transition duration-300">Go to Courses</a>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-6 mt-10">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 Author Morgan University. All rights reserved.</p>
+    </div>
+</footer>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package org.learn.regsystem.controllers.student;
 
+import lombok.extern.slf4j.Slf4j;
 import org.learn.regsystem.dtos.LoginDto;
 import org.learn.regsystem.entities.Login;
 import org.learn.regsystem.service.LoginService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Objects;
 
 @Controller
+@Slf4j
 public class LoginController {
 
     private final LoginService loginService;
