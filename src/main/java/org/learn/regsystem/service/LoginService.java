@@ -21,6 +21,10 @@ public class LoginService extends AbstractService<Login, LoginDto, UUID> {
     protected Class<Login> getEntityClass() {
         return Login.class;
     }
+    public Login loginByEmail(String email) throws Exception {
+        Optional<Login> user = loginRepository.findByEmail(email);
+        return user.orElse(null);
+    }
 
     @Override
     public Login login(LoginDto loginDto) throws Exception {
@@ -35,5 +39,11 @@ public class LoginService extends AbstractService<Login, LoginDto, UUID> {
         }else {
             return null;
         }
+    }
+
+    @Override
+    public Login findByUsernameOrEmail(String username, String email) throws Exception {
+        Optional<Login> login = loginRepository.findByEmail(email);
+        return login.orElse(null);
     }
 }

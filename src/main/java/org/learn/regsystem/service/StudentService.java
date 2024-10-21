@@ -9,9 +9,11 @@ import java.util.UUID;
 
 @Service
 public class StudentService extends AbstractService<Student, StudentDto, UUID>{
+    private final StudentRepository studentRepository;
 
-    public StudentService(StudentRepository repository) {
+    public StudentService(StudentRepository repository, StudentRepository studentRepository) {
         super(repository);
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -22,5 +24,10 @@ public class StudentService extends AbstractService<Student, StudentDto, UUID>{
     @Override
     public Student login(StudentDto studentDto) throws Exception {
         return super.login(studentDto);
+    }
+
+    @Override
+    public Student findByUsernameOrEmail(String username, String email) throws Exception {
+        return null;
     }
 }

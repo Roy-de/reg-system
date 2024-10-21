@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unofficial Transcript</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mx-auto my-10 p-6 border rounded shadow-lg">
+    <h2 class="text-2xl font-bold mb-6">Unofficial Transcript</h2>
+    <p>Your unofficial transcript includes all the courses you have taken, grades received, and cumulative GPA.</p>
+    <!-- Transcript table can go here -->
+    <table class="mt-4 w-full border">
+        <thead>
+        <tr class="bg-gray-200">
+            <th class="border p-2">Course ID</th>
+            <th class="border p-2">Course Name</th>
+            <th class="border p-2">Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="border p-2">CS101</td>
+            <td class="border p-2">Introduction to Computer Science</td>
+            <td class="border p-2">A</td>
+        </tr>
+        <tr>
+            <td class="border p-2">MATH101</td>
+            <td class="border p-2">Calculus I</td>
+            <td class="border p-2">B+</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

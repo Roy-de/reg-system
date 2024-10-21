@@ -25,4 +25,9 @@ public class CourseService extends AbstractService<Course, CourseDto, UUID> {
     public List<Course> searchByParameters(String courseName) {
         return courseRepository.findByCourse_name(courseName);
     }
+
+    @Override
+    public Course findByUsernameOrEmail(String username, String email) throws Exception {
+        return null;
+    }
 }

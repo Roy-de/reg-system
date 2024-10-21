@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h2 class="text-2xl font-bold mb-4">Grades</h2>
+
+    <!-- Grades Table -->
+    <table class="table-auto w-full bg-white rounded shadow-md">
+        <thead>
+        <tr class="bg-gray-200">
+            <th class="px-4 py-2">Course</th>
+            <th class="px-4 py-2">Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="border px-4 py-2">Math 101</td>
+            <td class="border px-4 py-2">A</td>
+        </tr>
+        <tr>
+            <td class="border px-4 py-2">Physics 201</td>
+            <td class="border px-4 py-2">B+</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

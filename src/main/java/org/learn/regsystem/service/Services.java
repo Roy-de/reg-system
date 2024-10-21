@@ -11,5 +11,5 @@ public interface Services<T, Y> {
     List<T> findAll() throws Exception;
     T findById(UUID id) throws Exception;
     T login(Y y) throws Exception;
-
+    T findByUsernameOrEmail(String username, String email) throws Exception;
 }

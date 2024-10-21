@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Schedule</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mx-auto my-10 p-6 border rounded shadow-lg">
+    <h2 class="text-2xl font-bold mb-6">Search Course Schedule</h2>
+    <form action="#" method="GET">
+        <div class="mb-4">
+            <label for="searchTerm" class="block text-sm font-medium text-gray-700">Search by Course Name or ID</label>
+            <input type="text" id="searchTerm" name="searchTerm" required class="mt-1 p-2 border rounded w-full" placeholder="Enter Course Name or ID">
+        </div>
+        <div class="mb-4">
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Search</button>
+        </div>
+    </form>
+    <!-- Search results can be displayed here -->
+</div>
+</body>
+</html>
