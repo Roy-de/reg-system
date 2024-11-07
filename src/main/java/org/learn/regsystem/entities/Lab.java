@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,8 +15,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Lab {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID lab_id;
-    private UUID room_id;
-    private int num_of_seats;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lab_id")
+    private Long labId;
+
+    private String labName;
+
+    @ManyToMany(mappedBy = "labs")
+    private Set<Room> rooms;
 }

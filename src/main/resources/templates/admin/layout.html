@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // JavaScript function to handle collapsible menus
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll('.toggle').forEach(item => {
+        item.addEventListener('click', () => {
+          const submenu = item.nextElementSibling;
+          submenu.classList.toggle('hidden');
+        });
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<header class="bg-gray-800 text-white p-2.5">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-lg font-bold">Admin Portal</h1>
+    <div>
+      <a href="/admin/logout" class="hover:underline">Logout</a>
+    </div>
+  </div>
+</header>
+
+<div class="flex flex-grow">
+  <!-- Sidebar -->
+  <nav class="bg-blue-900 w-52 min-h-screen">
+    <div class="p-6">
+      <h2 class="text-white text-xl font-extrabold">Navigation</h2>
+    </div>
+    <ul class="text-white space-y-2">
+      <li class="p-4 hover:bg-blue-700"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Faculty</a>
+        <ul class="submenu hidden">
+          <li class="py-2 px-4 hover:bg-blue-800"><a href="/admin/faculty/view">View All Faculty</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/faculty/add">Add New Faculty</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/faculty/schedule">Faculty Semester Schedule</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/faculty/account-info">Faculty Account Information</a></li>
+        </ul>
+      </li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Students</a>
+        <ul class="submenu hidden">
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/students/view">View All Students</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/students/add">Add New Student</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/students/schedule">Student Semester Schedule</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/students/grades">Student Grades</a></li>
+        </ul>
+      </li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Courses</a>
+        <ul class="submenu hidden">
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/courses/view">View All Courses</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/courses/add">Add New Course</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/courses/sections">Course Sections</a></li>
+        </ul>
+      </li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Advisement</a>
+        <ul class="submenu hidden">
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/advisement/view">View Advisees</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/advisement/manage-holds">Manage Holds</a></li>
+        </ul>
+      </li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Reports</a>
+        <ul class="submenu hidden">
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/reports/attendance">Attendance Reports</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/reports/grades">Grade Reports</a></li>
+        </ul>
+      </li>
+      <li class="collapsible hover:bg-blue-700 p-4">
+        <a href="#" class="toggle">Settings</a>
+        <ul class="submenu hidden">
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/settings/account">Account Settings</a></li>
+          <li class="pl-6 p-2 hover:bg-blue-800"><a href="/admin/settings/manage-users">Manage Users</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="flex-grow p-8">
+    <div th:replace="${content}"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4">
+  <div class="container mx-auto text-center">
+    <p>&copy; 2024 Arthur Morgan University. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

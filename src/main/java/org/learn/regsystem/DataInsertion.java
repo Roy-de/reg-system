@@ -83,7 +83,7 @@ public class DataInsertion implements CommandLineRunner {
 
     private void insertDepartments() {
         for (int i = 1; i <= 10; i++) {
-            Department department = new Department();
+            DepartmentDto department = new DepartmentDto();
             department.setDept_name(RandomDataGenerator.getRandomDepartment());
             department.setChair_id(i); // Example chair_id
             department.setDept_manager(RandomDataGenerator.getRandomName());
@@ -108,7 +108,7 @@ public class DataInsertion implements CommandLineRunner {
         for (int i = 1; i <= 10; i++) {
             Course course = new Course();
             course.setCourse_name(RandomDataGenerator.getRandomCourse());
-            course.setDept_id(UUID.randomUUID()); // Assuming dept_id corresponds to Department IDs
+            course.setDept_id(UUID.randomUUID()); // Assuming dept_id corresponds to DepartmentDto IDs
             course.setNo_of_credits(RandomDataGenerator.getRandomCredits());
             course.setDescription("Description for " + course.getCourse_name());
             course.setCourse_level(i <= 5 ? "Undergraduate" : "Graduate");

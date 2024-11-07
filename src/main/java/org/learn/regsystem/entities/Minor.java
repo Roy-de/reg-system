@@ -14,9 +14,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Minor {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID minor_id;
-    private String minor_name;
-    private UUID dept_id;
-    private double num_of_credits_required;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "minor_id")
+    private Long minorId;
+    private String name;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", unique = true, nullable = false)
+    private Department department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "required_course_id", nullable = false)
+    private Course requiredCourse;
 }

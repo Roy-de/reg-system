@@ -3,7 +3,5 @@ package org.learn.regsystem.repositories;
 import org.learn.regsystem.entities.Lab;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.UUID;
-
-public interface LabRepository extends JpaRepository<Lab, UUID> {
+public interface LabRepository extends JpaRepository<Lab, Long> {
 }

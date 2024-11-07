@@ -5,16 +5,21 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.util.List;
 
-@Entity
-@Table(name = "hold")
 @Getter
 @Setter
+@Entity
 @RequiredArgsConstructor
+@Table(name = "hold")
 public class Hold {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID hold_id;
-    private String hold_type;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "hold_id")
+    private Long holdId;
+    private String name;
+    private String description;
+
+    @OneToMany(mappedBy = "hold", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StudentHold> studentHolds;
 }

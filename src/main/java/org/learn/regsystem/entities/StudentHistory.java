@@ -14,10 +14,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentHistory {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID student_id;
-    private UUID crnno;
-    private UUID course_id;
-    private double grade;
-    private UUID semester_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "history_id")
+    private Long historyId;
+
+    // Many-to-one relationship with Student
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false) // Foreign key to Student
+    private Student student;
+
+    // Many-to-one relationship with Course
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false) // Foreign key to Course
+    private Course course;
+
+    private String grade;
 }

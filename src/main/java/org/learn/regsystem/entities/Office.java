@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,8 +15,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Office {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID office_id;
-    private UUID room_id;
-    private int no_of_desks;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "office_id")
+    private Long officeId;
+
+    private String officeNumber;
+
+    @ManyToMany(mappedBy = "offices")
+    private Set<Room> rooms;
 }

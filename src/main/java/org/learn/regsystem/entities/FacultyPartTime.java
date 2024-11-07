@@ -14,8 +14,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FacultyPartTime {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID faculty_id;
-    private int minnoclasses;
-    private int maxnoclasses;;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "part_time_id")
+    private Long partTimeId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false) // Foreign key to Faculty
+    private Faculty faculty;
 }

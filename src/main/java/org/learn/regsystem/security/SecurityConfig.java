@@ -29,16 +29,16 @@ public class SecurityConfig {
                                 ,"student/remove-course"
                                 ,"student/schedule"
                                 ,"student/search-schedule"
-                                ,"student/unofficial-transcript").authenticated()
+                                ,"student/unofficial-transcript").permitAll()
                         .anyRequest().permitAll())
-                .formLogin(c ->c
+                /*.formLogin(c ->c
                         .loginPage("/student/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/student/dashboard")
                         .failureForwardUrl("/student/login")
                         .permitAll()
-                )
+                )*/
                 .logout(l->l
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

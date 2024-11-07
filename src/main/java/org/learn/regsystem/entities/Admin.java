@@ -3,7 +3,6 @@ package org.learn.regsystem.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
 
 @Entity
 @Table(name = "admin")
@@ -12,9 +11,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID admin_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "admin_id")
+    private Long adminId;
 
-    private int security_level;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private Users users;
 
 }

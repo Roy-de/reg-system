@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Researcher Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<div class="flex flex-grow">
+    <!-- Sidebar -->
+    <nav class="bg-blue-900 w-52 min-h-screen">
+        <div class="p-6">
+            <h2 class="text-white text-xl font-extrabold">Researcher Portal</h2>
+        </div>
+        <ul class="text-white">
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/dashboard">Dashboard</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/profile">Profile</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/master-schedule">Master Schedule</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/search-schedule">Search Schedule</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/programs">Programs</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/programs/requirements">Program Requirements</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/courses/prerequisites">Courses prerequisites</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/departments">Departments</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/change-password">Change Password</a></li>
+            <li class="p-4 hover:bg-blue-700"><a href="/researcher/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content -->
+    <div class="flex-grow p-8">
+        <div th:replace="${content}"></div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 Arthur Morgan University. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "login")
@@ -14,11 +14,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Login {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID login_id;
-    private String email;
-    private String password;
-    private int no_of_attempts;
-    private boolean lockout;
-    private String user_type;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "login_id")
+    private Long loginId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private Users users;
+
+    @Column(name = "login_time", nullable = false)
+    private LocalDateTime loginTime;
 }

@@ -14,13 +14,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CourseSection {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID crnno;
-    private UUID course_id;
-    private int section_no;
-    private int faculty_id;
-    private String timeslot;
-    private int room_id;
-    private int available_seats;
-    private int semester_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "section_id")
+    private Long sectionId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false) // Foreign key to Course
+    private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false) // Foreign key to Faculty
+    private Faculty faculty;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "semester_id", nullable = false) // Foreign key to Semester
+    private Semester semester;
+
+    @OneToOne(mappedBy = "courseSection", cascade = CascadeType.ALL)
+    private Enrollment enrollments;
 }

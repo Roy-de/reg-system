@@ -15,8 +15,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentHold {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID student_id;
-    private UUID hold_id;
-    private LocalDate date_of_hold;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_hold_id")
+    private Long studentHoldId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id", nullable = false)
+    private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hold_id", referencedColumnName = "hold_id", nullable = false)
+    private Hold hold;
 }

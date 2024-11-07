@@ -1,20 +1,26 @@
 package org.learn.regsystem.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-import java.util.UUID;
+import java.util.Set;
 
+@Data
 @Entity
-@Table(name = "day")
-@Getter
-@Setter
 @RequiredArgsConstructor
+@Table(name = "day")
 public class Day {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID day_id;
-    private String weekday;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long dayId;
+    private String dayName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "day_timeslot",
+            joinColumns = @JoinColumn(name = "day_id"),
+            inverseJoinColumns = @JoinColumn(name = "time_slot_id")
+    )
+    private Set<TimeSlot> timeSlots;
 }

@@ -14,10 +14,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UndergraduateFullTime {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID student_id;
-    private int year;
-    private int min_credits;
-    private int max_credits;
-    private int credits_earned;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "undergraduate_full_time_id")
+    private Long undergraduateFullTimeId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "undergraduate_id", nullable = false)
+    private Undergraduate undergraduate;
 }

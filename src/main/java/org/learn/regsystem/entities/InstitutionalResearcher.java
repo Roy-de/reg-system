@@ -14,7 +14,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class InstitutionalResearcher {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID institutionalResearcher_id;
-    private String status;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "researcher_id")
+    private Long researcherId;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private Users users;
 }

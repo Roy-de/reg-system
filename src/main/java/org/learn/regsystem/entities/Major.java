@@ -14,8 +14,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Major {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID major_id;
-    private UUID course_id;
-    private double no_of_credits_required;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "major_id")
+    private Long majorId;
+    private String name;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", unique = true, nullable = false) // Foreign key column in Major table
+    private Department department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "required_course_id", nullable = false)
+    private Course requiredCourse;
 }

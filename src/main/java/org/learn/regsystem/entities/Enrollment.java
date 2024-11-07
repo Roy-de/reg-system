@@ -15,9 +15,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Enrollment {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID student_id;
-    private UUID crrno;
-    private double grade;
-    private LocalDate date_of_enrollment;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "enrollment_id")
+    private Long enrollmentId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false) // Foreign key to Student
+    private Student student;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id", nullable = false) // Foreign key to CourseSection
+    private CourseSection courseSection;
 }

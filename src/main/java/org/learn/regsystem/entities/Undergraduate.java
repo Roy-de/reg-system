@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -14,8 +16,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Undergraduate {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID student_id;
-    private UUID dept_id;
-    private String undergraduate_student_type;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "undergraduate_id")
+    private Long undergraduateId;
+
+    @ManyToMany(mappedBy = "undergraduates")
+    private Set<Student> students;
+
+    @OneToMany(mappedBy = "undergraduate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UndergraduatePartTime> partTimeRecords;
+
+    @OneToMany(mappedBy = "undergraduate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UndergraduateFullTime> fullTimeRecords;
 }

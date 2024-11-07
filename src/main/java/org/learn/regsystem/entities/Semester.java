@@ -6,19 +6,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
-@Table(name = "semester")
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Entity
+@Table(name = "semester")
 public class Semester {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID semester_id;
-    private String semester_name;
-    private int semester_year;
-    private LocalDate start_date;
-    private LocalDate end_date;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long semesterId;
+    private String name;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    @OneToOne(mappedBy = "semester", cascade = CascadeType.ALL)
+    private CourseSection courseSections;
+
 }

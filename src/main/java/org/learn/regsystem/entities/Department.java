@@ -1,25 +1,34 @@
 package org.learn.regsystem.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "department")
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID dept_id;
-    private String dept_name;
-    private int chair_id;
-    private String dept_manager;
-    private String email;
-    private String phone;
-    private UUID room_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "department_id")
+    private Long departmentId;
+    private String name;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "department_faculty",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "faculty_id")
+    )
+    private Set<Faculty> faculties = new HashSet<>();
+
+    @OneToOne(mappedBy = "department", cascade = CascadeType.ALL)
+    private Course course;
+    @OneToOne(mappedBy = "department", cascade = CascadeType.ALL)
+    private Major major;
+    @OneToOne(mappedBy = "department", cascade = CascadeType.ALL)
+    private Major minor;
 }

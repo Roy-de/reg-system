@@ -1,21 +1,21 @@
 package org.learn.regsystem.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
-import java.util.UUID;
-
+@Data
 @Entity
 @Table(name = "building")
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class Building {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID building_id;
-    private String building_name;
-    private String building_usage;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "building_id")
+    private Long buildingId;
+    private String name;
+    private String location;
+
+    @OneToOne(mappedBy = "building", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Room room;
 }

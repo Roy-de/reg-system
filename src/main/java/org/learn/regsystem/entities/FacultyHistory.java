@@ -14,9 +14,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FacultyHistory {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID faculty_id;
-    private UUID crnno;
-    private UUID course_id;
-    private UUID semester_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "history_id")
+    private Long historyId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id", nullable = false) // Foreign key to Faculty
+    private Faculty faculty;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false) // Foreign key to Course
+    private Course course;
+
 }

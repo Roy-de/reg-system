@@ -3,18 +3,11 @@ package org.learn.regsystem.controllers.student;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.learn.regsystem.dtos.LoginDto;
-import org.learn.regsystem.entities.Login;
-import org.learn.regsystem.entities.Student;
-import org.learn.regsystem.dtos.UserDto;
+import org.learn.regsystem.dtos.UsersDto;
 import org.learn.regsystem.entities.Users;
-import org.learn.regsystem.service.LoginService;
-import org.learn.regsystem.service.StudentService;
-import org.learn.regsystem.service.UsersService;
+import org.learn.regsystem.service.student.UserService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,34 +15,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.Optional;
 
 @Controller
 @Slf4j
 @RequestMapping("/student")
 public class StudentController {
 
-    private final LoginService loginService;
-    private final UsersService usersService;
-    private final StudentService studentService;
+    private final UserService userService;
 
-    public StudentController(LoginService loginService, UsersService usersService, StudentService studentService) {
-        this.loginService = loginService;
-        this.usersService = usersService;
-        this.studentService = studentService;
+    public StudentController(UserService userService) {
+        this.userService = userService;
     }
 
 
     @GetMapping("/login")
     public String loginFrom(Model model) {
-        model.addAttribute("LoginDto", new LoginDto());
+        model.addAttribute("userDto", new UsersDto());
         return "student/login";
     }
 
     @PostMapping("/login")
-    public String loginTo(Model model,@ModelAttribute("LoginDto")LoginDto loginDto) throws Exception {
-        Login login = loginService.login(loginDto);
-        if (login != null && Objects.equals(login.getUser_type(), "Student")) {
+    public String loginTo(Model model,@ModelAttribute("userDto")UsersDto usersDto) throws Exception {
+        Users users = userService.login(usersDto);
+        if (users != null) {
             return "redirect:/student/dashboard";
         }else {
             model.addAttribute("loginError", "Invalid username or password.");
@@ -58,12 +47,7 @@ public class StudentController {
     }
     @GetMapping("/dashboard")
     public String studentDashboard(Model model, Authentication authentication) throws Exception {
-        User user = (User) authentication.getPrincipal();
-        //String email = user.getUsername();
-        //Login login = loginService.findByUsernameOrEmail(email,email);
-        //Student student = studentService.findById(login.getLogin_id());
 
-        //model.addAttribute("student", student);
         model.addAttribute("content", "student/dashboard");
         return "student/layout";
     }
@@ -183,45 +167,13 @@ public class StudentController {
     }
     @GetMapping("/profile/edit")
     public String editProfileForm(Model model) {
-        // Simulating fetching the current user's data (this should come from the database)
-        UserDto userDto = new UserDto();
-        userDto.setFirst_name("");
-        userDto.setMiddle_name("");
-        userDto.setLast_name("");
-        userDto.setGender("");
-        userDto.setDob(LocalDate.parse("2022-01-01"));
-        userDto.setHouse_no("");
-        userDto.setStreet_name("");
-        userDto.setCity("");
-        userDto.setState("");
-        userDto.setZipcode("");
-        userDto.setPhone_no("");
-        userDto.setUser_type("");
 
-        // Add the student data to the model
-        model.addAttribute("student", userDto);
         model.addAttribute("content", "student/profile-edit");
         return "student/layout";
     }
 
     @PostMapping("/profile/edit")
-    public String updateProfile(
-            @ModelAttribute("student") UserDto userDto,
-            Model model
-    ) {
-        Users user = new Users();
-        user.setFirst_name(userDto.getFirst_name());
-        user.setMiddle_name(userDto.getMiddle_name());
-        user.setLast_name(userDto.getLast_name());
-        user.setGender(userDto.getGender());
-        user.setDob(userDto.getDob());
-        user.setHouse_no(userDto.getHouse_no());
-        user.setStreet_name(userDto.getStreet_name());
-        user.setCity(userDto.getCity());
-        user.setState(userDto.getState());
-        user.setZipcode(userDto.getZipcode());
-        user.setPhone_no(userDto.getPhone_no());
-
+    public String updateProfile(Model model) {
         // Redirect back to the profile page after update
         return "redirect:/student/profile";
     }
