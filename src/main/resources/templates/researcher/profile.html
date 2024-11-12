@@ -4,20 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div th:fragment="content">
-    <h2 class="text-2xl font-bold mb-4">Profile Information</h2>
+<body class="bg-gray-100">
+
+<div th:fragment="content" class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow mt-10">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Profile Information</h2>
 
     <!-- Profile Details -->
-    <div class="bg-white p-6 rounded shadow-md">
-        <p class="mb-4"><strong>Name:</strong> John Doe</p>
-        <p class="mb-4"><strong>Email:</strong> john.doe@example.com</p>
-        <p class="mb-4"><strong>Researcher ID:</strong> 123456</p>
+    <div class="space-y-4 text-gray-700">
+        <p>
+            <strong class="font-medium">Name:</strong>
+            <span th:text="${researcher.firstName} + ' ' + ${researcher.lastName}">John Doe</span>
+        </p>
+        <p>
+            <strong class="font-medium">Email:</strong>
+            <span th:text="${email}">john.doe@example.com</span>
+        </p>
+        <p>
+            <strong class="font-medium">Researcher ID:</strong>
+            <span th:text="${researcher.researcherId}">123456</span>
+        </p>
+    </div>
 
-        <!-- Edit Button -->
-        <a href="/student/profile/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Profile</a>
+    <!-- Action Buttons -->
+    <div class="flex space-x-4 mt-6">
+        <a href="/researcher/profile/edit" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Edit Profile
+        </a>
+        <a href="/researcher/account/change-password" class="flex-1 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+            Change Password
+        </a>
     </div>
 </div>
+
 </body>
 </html>

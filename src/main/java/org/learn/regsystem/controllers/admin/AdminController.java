@@ -1,5 +1,6 @@
 package org.learn.regsystem.controllers.admin;
 
+import org.learn.regsystem.dtos.UsersDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +12,14 @@ public class AdminController {
     //1. Authentication and Authorization
     @GetMapping("/login")
     public String login(Model model) {
-        return "admin/login"; // Returns the login page
+        model.addAttribute("userDto", new UsersDto());
+        return "admin/login";
     }
 
     //2. Admin Console (Main Dashboard)
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
+
         model.addAttribute("content", "admin/dashboard");
         return "admin/layout"; // Returns the main dashboard
     }

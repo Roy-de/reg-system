@@ -2,29 +2,41 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div th:fragment="content">
-    <h2 class="text-2xl font-bold mb-4">Edit Profile</h2>
+<body class="bg-gray-100">
 
-    <!-- Edit Profile Form -->
-    <form th:action="@{/researcher/profile/save}" th:object="${researcher}" method="post" class="bg-white p-6 rounded shadow-md">
-        <div class="mb-4">
-            <label for="name" class="block font-semibold">Name:</label>
-            <input type="text" th:field="*{name}" id="name" class="border p-2 rounded w-full" />
+<div th:fragment="content" class="max-w-2xl mx-auto p-6 bg-white rounded shadow mt-10">
+    <h2 class="text-2xl font-bold mb-6 text-center">Edit Profile</h2>
+
+    <form th:action="@{/researcher/profile/save}" th:object="${researcher}" method="post" class="space-y-4">
+        <!-- First Name Field -->
+        <div>
+            <label for="firstName" class="block text-gray-700 font-medium">First Name:</label>
+            <input type="text" th:field="*{firstName}" id="firstName" class="w-full border-gray-300 rounded px-4 py-2 focus:ring-blue-500 focus:border-blue-500" />
         </div>
-        <div class="mb-4">
-            <label for="email" class="block font-semibold">Email:</label>
-            <input type="email" th:field="*{email}" id="email" class="border p-2 rounded w-full" />
+
+        <!-- Last Name Field -->
+        <div>
+            <label for="lastName" class="block text-gray-700 font-medium">Last Name:</label>
+            <input type="text" th:field="*{lastName}" id="lastName" class="w-full border-gray-300 rounded px-4 py-2 focus:ring-blue-500 focus:border-blue-500" />
         </div>
-        <div class="mb-4">
-            <label for="department" class="block font-semibold">Department:</label>
-            <input type="text" th:field="*{department}" id="department" class="border p-2 rounded w-full" />
+
+        <!-- Date of Birth Field -->
+        <div>
+            <label for="dateOfBirth" class="block text-gray-700 font-medium">Date of Birth:</label>
+            <input type="date" th:field="*{dateOfBirthFormatted}" id="dateOfBirth" th:value="${#dates.format(researcher.dateOfBirth, 'yyyy-MM-dd')}" class="w-full border-gray-300 rounded px-4 py-2 focus:ring-blue-500 focus:border-blue-500" />
         </div>
-        <button type="submit" class="bg-blue-500 text-white p-2 rounded">Save</button>
-        <a href="/researcher/profile" class="text-blue-500 hover:underline ml-4">Cancel</a>
+
+        <!-- Buttons -->
+        <div class="flex justify-between items-center">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">Save</button>
+            <a href="/researcher/profile" class="text-blue-500 hover:underline">Cancel</a>
+        </div>
     </form>
 </div>
+
 </body>
 </html>

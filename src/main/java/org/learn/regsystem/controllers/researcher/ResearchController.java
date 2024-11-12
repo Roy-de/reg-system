@@ -2,33 +2,55 @@ package org.learn.regsystem.controllers.researcher;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.learn.regsystem.dtos.InstitutionalResearcherDto;
+import org.learn.regsystem.dtos.UsersDto;
+import org.learn.regsystem.entities.InstitutionalResearcher;
+import org.learn.regsystem.entities.Users;
+import org.learn.regsystem.service.researcher.ResearcherService;
+import org.learn.regsystem.service.researcher.ResearcherUserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
 @RequestMapping("/researcher")
 public class ResearchController {
+    private final HttpServletRequest request;
+    private final ResearcherUserService userService;
+    private final ResearcherService researcherService;
 
+    public ResearchController(HttpServletRequest request, ResearcherUserService userService, ResearcherService researcherService) {
+        this.request = request;
+        this.userService = userService;
+        this.researcherService = researcherService;
+    }
 
     // Login Page
     @GetMapping("/login")
     public String loginForm(Model model) {
-
+        model.addAttribute("userDto", new UsersDto());
         return "researcher/login";
     }
 
     @PostMapping("/login")
-    public String loginTo(Model model) throws Exception {
-        if (true) {
+    public String loginTo(Model model, @ModelAttribute("userDto")UsersDto usersDto) throws Exception {
+        Users users = userService.login(usersDto);
+        if (users != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", users.getUserId());
             return "redirect:/researcher/dashboard";
-        } else {
+        }else {
             model.addAttribute("loginError", "Invalid username or password.");
             return "researcher/login";
         }
@@ -37,6 +59,20 @@ public class ResearchController {
     // Researcher Dashboard
     @GetMapping("/dashboard")
     public String researcherDashboard(Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                Users user = userService.findById(userId);
+                Pattern pattern = Pattern.compile("^[^@]+");
+                Matcher matcher = pattern.matcher(user.getUsername());
+                if (matcher.find()) {
+                    model.addAttribute("username", matcher.group());
+                }else {
+                    model.addAttribute("username", user.getUsername());
+                }
+            }
+        }
         model.addAttribute("content", "researcher/dashboard");
         return "researcher/layout";
     }
@@ -53,6 +89,16 @@ public class ResearchController {
     // View Profile
     @GetMapping("/profile")
     public String getProfile(Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            Users user = userService.findById(userId);
+            if (userId != null) {
+                InstitutionalResearcher researcher = researcherService.findByUserId(userId);
+                model.addAttribute("email",user.getUsername());
+                model.addAttribute("researcher", Objects.requireNonNullElseGet(researcher, InstitutionalResearcherDto::new));
+            }
+        }
         model.addAttribute("content", "researcher/profile");
         return "researcher/layout";
     }
@@ -60,13 +106,36 @@ public class ResearchController {
     // Edit Profile
     @GetMapping("/profile/edit")
     public String editProfileForm(Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            InstitutionalResearcher researcher = researcherService.findByUserId(userId);
+            if (researcher != null && researcher.getDateOfBirth() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String formattedDateOfBirth = researcher.getDateOfBirth().format(formatter);
+                model.addAttribute("dateOfBirthFormatted", formattedDateOfBirth);
+            }
+            model.addAttribute("researcher", researcher);
+        }
+
         model.addAttribute("content", "researcher/profile-edit");
         return "researcher/layout";
     }
 
-    @PostMapping("/profile/edit")
-    public String updateProfile(Model model) {
-        return "redirect:/researcher/profile";
+    @PostMapping("/profile/save")
+    public String updateProfile(Model model,@ModelAttribute("researcher") InstitutionalResearcherDto researcher) throws Exception {
+        researcherService.update(researcher);
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            Users user = userService.findById(userId);
+            if (userId != null) {
+                model.addAttribute("email",user.getUsername());
+                model.addAttribute("researcher", Objects.requireNonNullElseGet(researcher, InstitutionalResearcherDto::new));
+            }
+        }
+        model.addAttribute("content", "researcher/profile");
+        return "redirect:/researcher/layout";
     }
 
     // Change Password

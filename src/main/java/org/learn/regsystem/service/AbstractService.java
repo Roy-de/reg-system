@@ -16,7 +16,7 @@ import java.util.UUID;
  * @param <Y>  The DTO type.
  * @param <ID> The primary key type of the entity.
  */
-public abstract class AbstractService<T, Y, ID> implements Services<T, Y> {
+public abstract class AbstractService<T, Y, ID> implements Services<T, Y, ID> {
 
     /**
      * JSON mapper used for converting between DTOs and entities.
@@ -102,11 +102,10 @@ public abstract class AbstractService<T, Y, ID> implements Services<T, Y> {
      *
      * @param id the unique identifier of the entity.
      * @return the entity if found, or {@code null} if not found.
-     * @throws Exception if an error occurs during the retrieval.
      */
     @Override
-    public T findById(UUID id) throws Exception {
-        Optional<T> entity = repository.findById((ID) id);
+    public T findById(ID id) {
+        Optional<T> entity = repository.findById(id);
         return entity.orElse(null);
     }
 

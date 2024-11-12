@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>faculty Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<div class="flex flex-grow">
+  <!-- Sidebar -->
+  <nav class="bg-blue-900 w-52 min-h-screen">
+    <div class="p-6">
+      <h2 class="text-white text-xl font-extrabold">Faculty Portal</h2>
+    </div>
+    <ul class="text-white">
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/dashboard">Dashboard</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/profile">Profile</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/advisement">Advisements</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/academics">Academics</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/grades">Grades</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/holds">Holds</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/registration">Registration</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/degree-audit">Degree Audit</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/unofficial-transcript">Unofficial Transcript</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/change-password">Change Password</a></li>
+      <li class="p-4 hover:bg-blue-700"><a href="/faculty/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Content -->
+  <div class="flex-grow p-8">
+    <div th:replace="${content}"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-4">
+  <div class="container mx-auto text-center">
+    <p>&copy; 2024 Arthur Morgan University. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

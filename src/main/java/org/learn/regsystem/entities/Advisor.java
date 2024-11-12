@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "advisor")
@@ -14,12 +13,22 @@ import java.util.UUID;
 @Setter
 @RequiredArgsConstructor
 public class Advisor {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "advisor_id")
     private Long advisorId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faculty_id", nullable = false) // Foreign key to Faculty
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty;
+
+    // Date of Appointment
+    @Column(name = "date_of_appointment", nullable = false)
+    private LocalDate dateOfAppointment;
 }

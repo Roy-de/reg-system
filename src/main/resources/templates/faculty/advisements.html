@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Advisement</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<!-- Main Content -->
+<div th:fragment="content" class="container mx-auto p-6">
+
+  <!-- Advisement Dashboard -->
+  <section class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Advisement Dashboard</h2>
+    <ul class="list-disc pl-6 text-gray-700">
+      <li>Upcoming Advising Sessions: <span>3 scheduled</span></li>
+      <li>Review Student Course Selections: <span>5 students pending</span></li>
+      <li>Graduation Approvals: <span>2 students pending</span></li>
+    </ul>
+  </section>
+
+  <!-- Faculty Details -->
+  <section class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Faculty Information</h2>
+    <p><strong>Faculty Name:</strong> <span th:text="${faculty.firstName}"><span> </span> <span th:text="${faculty.lastName}"></span></span></p>
+    <section class="bg-white p-6 rounded-lg shadow mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Faculty Departments</h2>
+      <ul class="list-disc pl-6 text-gray-700">
+        <li th:each="dept : ${departmentNames}" th:text="${dept}">Department Name</li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- Advisor Details -->
+  <section class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Advisor Information</h2>
+    <p><strong>Advisor Name:</strong> <span th:text="${faculty.firstName}"><span> </span> <span th:text="${faculty.lastName}"></span></span></p>
+    <p><strong>Date of Appointment:</strong> <span th:text="${advisor.dateOfAppointment}">2020-01-15</span></p>
+  </section>
+
+  <!-- Advisees List -->
+  <section class="bg-white p-6 rounded-lg shadow mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Your Advisee</h2>
+    <table class="min-w-full table-auto">
+      <thead>
+      <tr>
+        <th class="px-4 py-2 border">Student First Name</th>
+        <th class="px-4 py-2 border">Last Name</th>
+        <th class="px-4 py-2 border">Current Courses</th>
+        <th class="px-4 py-2 border">Academic Standing</th>
+        <th class="px-4 py-2 border">Contact</th>
+        <th class="px-4 py-2 border">Advisement Notes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Display the single advisee associated with the advisor -->
+      <tr>
+        <td class="px-4 py-2 border" th:text="${advisor.student.firstName}"></td>
+        <td class="px-4 py-2 border" th:text="${advisor.student.lastName}"></td>
+        <td class="px-4 py-2 border">CS101, MATH120</td>
+        <td class="px-4 py-2 border">Good Standing (GPA: 3.5)</td>
+        <td class="px-4 py-2 border">johndoe@example.com</td>
+        <td class="px-4 py-2 border">
+          <a href="#" class="text-blue-500 hover:text-blue-700">View Notes</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Action Buttons -->
+  <div class="flex space-x-4 mt-8">
+    <a href="/faculty/advisement/schedule" class="bg-blue-600 text-white font-bold py-2 px-6 rounded hover:bg-blue-700 transition duration-200">
+      Schedule New Advising Session
+    </a>
+    <a href="/faculty/advisement/report" class="bg-green-600 text-white font-bold py-2 px-6 rounded hover:bg-green-700 transition duration-200">
+      View Advising Report
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

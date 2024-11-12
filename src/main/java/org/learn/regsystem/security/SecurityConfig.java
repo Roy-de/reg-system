@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -31,14 +32,8 @@ public class SecurityConfig {
                                 ,"student/search-schedule"
                                 ,"student/unofficial-transcript").permitAll()
                         .anyRequest().permitAll())
-                /*.formLogin(c ->c
-                        .loginPage("/student/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/student/dashboard")
-                        .failureForwardUrl("/student/login")
-                        .permitAll()
-                )*/
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .logout(l->l
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

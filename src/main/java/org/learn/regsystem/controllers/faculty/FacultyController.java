@@ -1,77 +1,143 @@
 package org.learn.regsystem.controllers.faculty;
 
-import org.learn.regsystem.entities.Faculty;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.learn.regsystem.dtos.UsersDto;
+import org.learn.regsystem.entities.*;
+import org.learn.regsystem.service.faculty.AdvisementService;
+import org.learn.regsystem.service.faculty.FacultyUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/faculty")
 public class FacultyController {
+    private final AdvisementService advisementService;
+    private final FacultyUserService userService;
+    private final HttpServletRequest request;
+
+    public FacultyController(AdvisementService advisementService, FacultyUserService userService, HttpServletRequest request) {
+        this.advisementService = advisementService;
+        this.userService = userService;
+        this.request = request;
+    }
 
     // =============================== Faculty Home & Console ===============================
 
-    @GetMapping("/home")
-    public String viewFacultyHomePage() {
-        return "facultyHome";
+    @GetMapping("/login")
+    public String viewFacultyHomePage(Model model) {
+        model.addAttribute("userDto", new UsersDto());
+        return "faculty/login";
+    }
+    @PostMapping("/login")
+    public String loginTo(Model model,@ModelAttribute("userDto")UsersDto usersDto) throws Exception {
+        Users users = userService.login(usersDto);
+        if (users != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", users.getUserId());
+            return "redirect:/faculty/dashboard";
+        }else {
+            model.addAttribute("loginError", "Invalid username or password.");
+            return "student/login";
+        }
     }
 
-    @GetMapping("/console")
-    public String viewFacultyConsole(Model model) {
-        model.addAttribute("facultyDetails", "");
-        return "facultyConsole";
+    @GetMapping("/dashboard")
+    public String viewFacultyConsole(Model model) throws Exception {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                Users user = userService.findById(userId);
+                Pattern pattern = Pattern.compile("^[^@]+");
+                Matcher matcher = pattern.matcher(user.getUsername());
+                if (matcher.find()) {
+                    model.addAttribute("username", matcher.group());
+                }else {
+                    model.addAttribute("username", user.getUsername());
+                }
+            }
+        }
+        model.addAttribute("content", "faculty/dashboard");
+        return "faculty/layout";
     }
 
     // =============================== Advisement Pages ===============================
 
     @GetMapping("/advisement")
-    public String viewAdvisementConsole(Model model) {
-        model.addAttribute("advisementOptions", "");
-        return "advisementConsole";
+    public String viewAdvisementConsole(Model model) throws Exception {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                Users user = userService.findById(userId);
+                Faculty faculty = user.getFaculty();
+                if(faculty != null) {
+                    List<String> departmentNames = faculty.getDepartments()
+                            .stream()
+                            .map(Department::getName)
+                            .collect(Collectors.toList());
+                    Advisor advisor = faculty.getAdvisor();
+                    model.addAttribute("faculty", faculty);
+                    Student advisee = advisor.getStudent();
+                    model.addAttribute("departmentNames", departmentNames);
+                    model.addAttribute("advisor", advisor);
+                    model.addAttribute("advisees", advisee);
+
+                }
+            }
+        }
+        model.addAttribute("content", "faculty/advisements");
+        return "faculty/layout";
     }
 
     @GetMapping("/advisees/personal")
     public String viewPersonalAdvisees(Model model) {
         model.addAttribute("advisees", "");
-        return "viewAdvisees";
+        return "faculty/layout";
     }
 
     @GetMapping("/advisees/all")
     public String viewAllAdvisees(Model model) {
         model.addAttribute("advisees","");
-        return "viewAllAdvisees";
+        return "faculty/layout";
     }
 
-    @GetMapping("/advisees/{studentId}/degreeAudit")
-    public String viewStudentDegreeAudit(@PathVariable("studentId") Long studentId, Model model) {
+    @GetMapping("/advisees/degreeAudit")
+    public String viewStudentDegreeAudit(Model model) {
         model.addAttribute("degreeAudit", "");
-        return "degreeAudit";
+        return "faculty/layout";
     }
 
-    @GetMapping("/advisees/{studentId}/personalInfo")
-    public String viewStudentPersonalInfo(@PathVariable("studentId") Long studentId, Model model) {
+    @GetMapping("/advisees/personalInfo")
+    public String viewStudentPersonalInfo(Model model) {
         model.addAttribute("student", "");
-        return "personalInfo";
+        return "faculty/layout";
     }
 
-    @GetMapping("/advisees/{studentId}/holds")
-    public String viewStudentHolds(@PathVariable("studentId") Long studentId, Model model) {
+    @GetMapping("/advisees/holds")
+    public String viewStudentHolds(Model model) {
         model.addAttribute("holds", "");
-        return "studentHolds";
+        return "faculty/layout";
     }
 
-    @GetMapping("/advisees/{studentId}/semesterSchedule")
-    public String viewStudentSemesterSchedule(@PathVariable("studentId") Long studentId, Model model) {
+    @GetMapping("/advisees/semesterSchedule")
+    public String viewStudentSemesterSchedule(Model model) {
         model.addAttribute("schedule", "");
-        return "studentSemesterSchedule";
+        return "faculty/layout";
     }
 
-    @GetMapping("/advisees/{studentId}/transcript")
-    public String viewUnofficialTranscript(@PathVariable("studentId") Long studentId, Model model) {
+    @GetMapping("/advisees/transcript")
+    public String viewUnofficialTranscript(Model model) {
         model.addAttribute("transcript", "");
-        return "unofficialTranscript";
+        return "faculty/layout";
     }
 
     // =============================== Faculty Schedule & Course Section Pages ===============================
@@ -79,13 +145,13 @@ public class FacultyController {
     @GetMapping("/semesterSchedule")
     public String viewFacultySemesterSchedule(Model model) {
         model.addAttribute("courses", "");
-        return "facultySemesterSchedule";
+        return "faculty/layout";
     }
 
     @GetMapping("/course/{courseId}/roster")
     public String viewCourseRoster(@PathVariable("courseId") Long courseId, Model model) {
         model.addAttribute("roster", "");
-        return "courseRoster";
+        return "faculty/layout";
     }
 
     @PostMapping("/course/{courseId}/assignGrades")

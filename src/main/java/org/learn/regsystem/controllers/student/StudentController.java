@@ -2,30 +2,32 @@ package org.learn.regsystem.controllers.student;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.learn.regsystem.dtos.UsersDto;
+import org.learn.regsystem.entities.Student;
 import org.learn.regsystem.entities.Users;
-import org.learn.regsystem.service.student.UserService;
+import org.learn.regsystem.service.student.StudentUserService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @Slf4j
 @RequestMapping("/student")
 public class StudentController {
 
-    private final UserService userService;
+    private final StudentUserService userService;
+    private final HttpServletRequest request;
 
-    public StudentController(UserService userService) {
+    public StudentController(StudentUserService userService, HttpServletRequest request) {
         this.userService = userService;
+        this.request = request;
     }
 
 
@@ -39,6 +41,8 @@ public class StudentController {
     public String loginTo(Model model,@ModelAttribute("userDto")UsersDto usersDto) throws Exception {
         Users users = userService.login(usersDto);
         if (users != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", users.getUserId());
             return "redirect:/student/dashboard";
         }else {
             model.addAttribute("loginError", "Invalid username or password.");
@@ -46,8 +50,21 @@ public class StudentController {
         }
     }
     @GetMapping("/dashboard")
-    public String studentDashboard(Model model, Authentication authentication) throws Exception {
-
+    public String studentDashboard(Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                Users user = userService.findById(userId);
+                Pattern pattern = Pattern.compile("^[^@]+");
+                Matcher matcher = pattern.matcher(user.getUsername());
+                if (matcher.find()) {
+                    model.addAttribute("username", matcher.group());
+                }else {
+                    model.addAttribute("username", user.getUsername());
+                }
+            }
+        }
         model.addAttribute("content", "student/dashboard");
         return "student/layout";
     }
@@ -56,20 +73,45 @@ public class StudentController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         if (authentication != null) {
-            // Create a logout handler
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
-        return "redirect:/";  // Redirect to the home page or desired page after logout
+        return "redirect:/";
     }
     @GetMapping("/profile")
-    public String getProfile(Model model) {
-        model.addAttribute("content", "student/profile");
+    public String getProfile(Model model) throws Exception {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+                Users user = userService.findById(userId);
+                if (user != null) {
+                    Student student = user.getStudent();
+                    model.addAttribute("user", user);
+                    model.addAttribute("student", student);
+                    model.addAttribute("content", "student/profile");
+                } else {
+                    return "redirect:/login";
+                }
+            } else {
+                return "redirect:/login";
+            }
+        } else {
+            return "redirect:/login";
+        }
         return "student/layout";
     }
 
     @GetMapping("/schedule")
     public String showSchedule(Model model) {
-        model.addAttribute("content", "student/schedule.html");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long userId = (Long) session.getAttribute("userId");
+            if (userId != null) {
+
+            }
+        }
+
+        model.addAttribute("content", "student/schedule");
         return "student/layout";
     }
 

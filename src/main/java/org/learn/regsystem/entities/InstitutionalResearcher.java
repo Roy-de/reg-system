@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -21,4 +22,8 @@ public class InstitutionalResearcher {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private Users users;
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+
 }

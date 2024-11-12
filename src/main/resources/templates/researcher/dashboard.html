@@ -7,8 +7,7 @@
 </head>
 <body>
 <div th:fragment="content">
-    <h1 class="text-3xl font-bold mb-6">Welcome, Researcher!</h1>
-    <p class="text-lg text-gray-700">Here you can view your account and more.</p>
+    <h1 class="text-3xl font-bold mb-6">Welcome, <span th:text="${username}"></span>!</h1>
 </div>
 </body>
 </html>

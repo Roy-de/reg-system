@@ -10,7 +10,7 @@ public class CustomAuthenticationToken extends AbstractAuthenticationToken {
         super(null);
         this.principal = principal;
         this.credentials = credentials;
-        setAuthenticated(false);
+        setAuthenticated(true);
     }
 
     @Override

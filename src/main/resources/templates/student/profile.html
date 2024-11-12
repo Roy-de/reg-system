@@ -11,9 +11,9 @@
 
   <!-- Profile Details -->
   <div class="bg-white p-6 rounded shadow-md">
-    <p class="mb-4"><strong>Name:</strong> John Doe</p>
-    <p class="mb-4"><strong>Email:</strong> john.doe@example.com</p>
-    <p class="mb-4"><strong>Student ID:</strong> 123456</p>
+    <p class="mb-4"><strong>Name:</strong> <span th:text="${student.firstName}"></span><span> </span><span th:text="${student.lastName}"></span></p>
+    <p class="mb-4"><strong>Email:</strong> <span th:text="${user.username}"></span></p>
+    <p class="mb-4"><strong>Student ID:</strong> <span th:text="${user.userId}"></span></p>
 
     <!-- Edit Button -->
     <a href="/student/profile/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Profile</a>
